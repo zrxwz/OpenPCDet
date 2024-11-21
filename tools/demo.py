@@ -2,6 +2,12 @@ import argparse
 import glob
 from pathlib import Path
 
+# try:
+#     import open3d
+#     from visual_utils import open3d_vis_utils as V
+#     OPEN3D_FLAG = True
+# except ImportError:
+#     print("Open3D库未找到，使用Mayavi替换可能会遇到问题。")
 try:
     import open3d
     from visual_utils import open3d_vis_utils as V
@@ -87,7 +93,7 @@ def main():
     logger.info(f'Total number of samples: \t{len(demo_dataset)}')
 
     model = build_network(model_cfg=cfg.MODEL, num_class=len(cfg.CLASS_NAMES), dataset=demo_dataset)
-    model.load_params_from_file(filename=args.ckpt, logger=logger, to_cpu=True)
+    model.load_params_from_file(filename=args.ckpt, logger=logger, to_cpu=False)
     model.cuda()
     model.eval()
     with torch.no_grad():
